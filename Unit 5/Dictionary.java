@@ -6,22 +6,22 @@ public class Dictionary {
  public static void main(String args[]) throws FileNotFoundException{
                 try {
                     // Reading the words.txt file.
-                    Scanner filein = new Scanner(new File ("words.txt"));
+                    Scanner words = new Scanner(new File ("words.txt"));
                     // Creatin the new dictionary data structure
-                    HashSet<String> hash = new HashSet();
-                    while (filein.hasNext()) {
-                     String tk = filein.next();
+                    HashSet<String> dict = new HashSet();
+                    while (words.hasNext()) {
+                     String tk = words.next();
                         //Adding words into dictionary from "words.txt"
-   hash.add(tk.toLowerCase());
+   dict.add(tk.toLowerCase());
                     }
 
-                    Scanner userFile = new Scanner(getInputFileNameFromUser());
-                    userFile.useDelimiter("[^a-zA-Z]+");
-                    while (userFile.hasNext()){
-                         String two = userFile.next();
-                                String two1 = two.toLowerCase();
-                                if(!hash.contains(two1)){
-            System.out.println(two1 + ":" + corrections(two1, hash));
+                    Scanner inputFile = new Scanner(getInputFileNameFromUser());
+                    inputFile.useDelimiter("[^a-zA-Z]+");
+                    while (inputFile.hasNext()){
+                         String inputWord = inputFile.next();
+                                inputWord = inputWord.toLowerCase();
+                                if(!dict.contains(inputWord)){
+            System.out.println(inputWord + ":" + corrections(inputWord, dict));
                      }
                     }
                 }
@@ -44,44 +44,44 @@ public class Dictionary {
       * Swap any two neighboring characters in the misspelled word.
       * Insert a space at any point in the misspelled word (and check that both of the words that are produced are in the dictionary)
   */
-        static TreeSet corrections(String badWord, HashSet dictionary){
+        static TreeSet corrections(String incorrectWord, HashSet dictionary){
                 TreeSet<String> tree = new TreeSet<String>();
   //Delete any one of the letters from the misspelled word, then check if exist in the dictionary.
-                for (int i=0; i<badWord.length(); i++){
-   String s = badWord.substring(0,i) + badWord.substring(i+1);
+                for (int i=0; i<incorrectWord.length(); i++){
+   String s = incorrectWord.substring(0,i) + incorrectWord.substring(i+1);
    if(dictionary.contains(s)){
     tree.add(s);
    }
   }
   //Change any letter in the misspelled word to any other letter , then check if exist in the dictionary.
-                for (int i=0; i<badWord.length(); i++){
+                for (int i=0; i<incorrectWord.length(); i++){
    for (char ch = 'a'; ch <= 'z'; ch++) {
-    String s = badWord.substring(0,i) + ch + badWord.substring(i+1);
+    String s = incorrectWord.substring(0,i) + ch + incorrectWord.substring(i+1);
     if(dictionary.contains(s)){
      tree.add(s);
     }
    }
   }
   //Insert any letter at any point in the misspelled word ,then check if exist in the dictionary.
-                for (int i=0; i<=badWord.length(); i++){
+                for (int i=0; i<=incorrectWord.length(); i++){
    for (char ch = 'a'; ch <= 'z'; ch++) {
-    String s = badWord.substring(0,i) + ch + badWord.substring(i);
+    String s = incorrectWord.substring(0,i) + ch + incorrectWord.substring(i);
     if(dictionary.contains(s)){
      tree.add(s);
     }
    }
   }
   //Swap any two neighboring characters in the misspelled word, then check if exist in the dictionary.
-                for(int i=0; i< badWord.length()-1; i++){
-   String s = badWord.substring(0,i)+ badWord.substring(i+1, i+2) + badWord.substring(i,i+1)+ badWord.substring(i+2);
+                for(int i=0; i< incorrectWord.length()-1; i++){
+   String s = incorrectWord.substring(0,i)+ incorrectWord.substring(i+1, i+2) + incorrectWord.substring(i,i+1)+ incorrectWord.substring(i+2);
    if(dictionary.contains(s)){
     tree.add(s);
    }
   }
   //Insert a space at any point in the misspelled word (and check that
   //both of the words that are produced are in the dictionary)
-  for (int i=1; i<badWord.length(); i++){
-   String stringInput = badWord.substring(0,i) + " " + badWord.substring(i);
+  for (int i=1; i<incorrectWord.length(); i++){
+   String stringInput = incorrectWord.substring(0,i) + " " + incorrectWord.substring(i);
    String tempString = "";
                         //break a string into tokens and add it to tempWords
                         StringTokenizer tempWords = new StringTokenizer(stringInput);
